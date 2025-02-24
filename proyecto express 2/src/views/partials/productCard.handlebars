@@ -1,0 +1,20 @@
+<li class="product-card" data-id="{{this.id}}">
+    <div class="image-container">
+        {{#if this.thumbnails.length}}
+            <img class="product-image" src="{{this.thumbnails.[0]}}" alt="Imagen de {{this.title}}">
+        {{else}}
+            <p class="no-image">Sin imagen disponible</p>
+        {{/if}}
+    </div>
+    <div class="card-body">
+        <h3 class="product-title">{{this.title}}</h3>
+        <p><strong>Descripción:</strong> {{this.description}}</p>
+        <p><strong>Código:</strong> {{this.code}}</p>
+        <p><strong>Precio:</strong> ${{this.price}}</p>
+        <p><strong>Stock:</strong> {{this.stock}} unidades</p>
+        <p><strong>Categoría:</strong> {{this.category}}</p>
+        <p class="product-status {{#if this.status}}available{{else}}out-of-stock{{/if}}">
+            {{#if this.status}}Disponible{{else}}Agotado{{/if}}
+        </p>
+    </div>
+</li>

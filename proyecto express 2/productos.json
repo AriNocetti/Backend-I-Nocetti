@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "title": "Producto Actualizado",
+    "description": "Descripción del producto",
+    "code": "ABC123",
+    "price": 89.99,
+    "stock": 30,
+    "category": "Pantalones",
+    "thumbnails": [
+      "https://res.cloudinary.com/dejb7jzsz/image/upload/v1738957495/jogging_negro_gbx2dq.webp"
+    ],
+    "status": true
+  },
+  {
+    "id": 2,
+    "title": "Nuevo Producto2",
+    "description": "Descripción del producto2",
+    "code": "ABC1232",
+    "price": 99.99,
+    "stock": 50,
+    "category": "Lenceria",
+    "thumbnails": [
+      "https://res.cloudinary.com/dejb7jzsz/image/upload/v1738957498/conjunto_sanValentin_pa4szr.webp"
+    ],
+    "status": true
+  },
+  {
+    "id": 4,
+    "title": "Abrigo",
+    "description": "descr abrigo",
+    "code": "123",
+    "price": "123",
+    "stock": "1233",
+    "category": "abrigo",
+    "thumbnails": [
+      "https://res.cloudinary.com/dejb7jzsz/image/upload/v1738957501/abrigo_huggie_ckqbkk.webp"
+    ],
+    "status": "false"
+  }
+]
