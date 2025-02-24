@@ -1,0 +1,13 @@
+{
+    "id": 4,
+    "title": "Abrigo",
+    "description": "descr abrigo",
+    "code": "123",
+    "price": "123",
+    "stock": "1233",
+    "category": "abrigo",
+    "thumbnails": [
+      "https://res.cloudinary.com/dejb7jzsz/image/upload/v1738957501/abrigo_huggie_ckqbkk.webp"
+    ],
+    "status": "false"
+  }

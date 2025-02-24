@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <li class="product-card" data-id="{{this.id}}">
     <div class="image-container">
         {{#if this.thumbnails.length}}
@@ -16,5 +17,6 @@
         <p class="product-status {{#if this.status}}available{{else}}out-of-stock{{/if}}">
             {{#if this.status}}Disponible{{else}}Agotado{{/if}}
         </p>
+        <button class="delete-product-btn" data-id="{{this.id}}">Eliminar</button> <!-- Botón de eliminar -->
     </div>
 </li>

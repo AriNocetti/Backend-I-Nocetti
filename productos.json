@@ -1,19 +1,19 @@
 [
   {
-    "id": 1,
-    "title": "Producto Actualizado",
-    "description": "Descripción del producto",
-    "code": "ABC123",
-    "price": 89.99,
-    "stock": 30,
+    "id": 2,
+    "title": "Pantalon",
+    "description": "descr pantalon",
+    "code": "3123",
+    "price": "12312",
+    "stock": "12",
     "category": "Pantalones",
     "thumbnails": [
       "https://res.cloudinary.com/dejb7jzsz/image/upload/v1738957495/jogging_negro_gbx2dq.webp"
     ],
-    "status": true
+    "status": "false"
   },
   {
-    "id": 2,
+    "id": 3,
     "title": "Nuevo Producto2",
     "description": "Descripción del producto2",
     "code": "ABC1232",
