@@ -1,0 +1,42 @@
+<div class="filter-container">
+    <form method="GET" action="" class="filter-form">
+        <select name="category">
+            <option value="">Todas las categorías</option>
+            <option value="Lenceria" {{#if (eq filters.category "Lenceria")}}selected{{/if}}>Lenceria</option>
+            <option value="abrigo" {{#if (eq filters.category "abrigo")}}selected{{/if}}>Abrigo</option>
+            <option value="Pantalones" {{#if (eq filters.category "Pantalones")}}selected{{/if}}>Pantalones</option>
+            <option value="Generico" {{#if (eq filters.category "Generico")}}selected{{/if}}>Generico</option>
+        </select>
+
+        <select name="status">
+            <option value="">Disponibilidad</option>
+            <option value="true" {{#if (eq filters.status "true")}}selected{{/if}}>Disponible</option>
+            <option value="false" {{#if (eq filters.status "false")}}selected{{/if}}>No Disponible</option>
+        </select>
+
+        <select name="sort">
+            <option value="">Ordenar por precio</option>
+            <option value="asc" {{#if (eq filters.sort "asc")}}selected{{/if}}>Menor a Mayor</option>
+            <option value="desc" {{#if (eq filters.sort "desc")}}selected{{/if}}>Mayor a Menor</option>
+        </select>
+
+        <input type="hidden" name="page" value="{{filters.page}}">
+        <input type="hidden" name="limit" value="{{filters.limit}}">
+
+        <button type="submit">Filtrar</button>
+    </form>
+</div>
+
+<div class="pagination">
+    {{#if info.hasPrevPage}}
+        <a href="?limit={{info.limit}}&page={{info.prevPage}}&category={{filters.category}}&status={{filters.status}}&sort={{filters.sort}}" class="prev-page">Anterior</a>
+    {{/if}}
+
+    <span>Página {{info.page}} de {{info.totalPages}}</span>
+
+    {{#if info.hasNextPage}}
+        <a href="?limit={{info.limit}}&page={{info.nextPage}}&category={{filters.category}}&status={{filters.status}}&sort={{filters.sort}}" class="next-page">Siguiente</a>
+    {{/if}}
+</div>
+
+<link rel="stylesheet" href="/css/paginationControls.css">

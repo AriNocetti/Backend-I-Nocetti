@@ -1,13 +1,3 @@
-
-
-<h2 class="title">Productos en tiempo real</h2>
-<ul id="productosLista" class="product-list">
-    {{#each productos}}
-        {{> productCard}}
-    {{/each}}
-</ul>
-
-<h1>Creacion de productos</h1>
 <form id="productForm" action="/api/products" method="POST">
     <label for="title">Título: </label>
     <input type="text" id="title" name="title" required>
@@ -39,9 +29,4 @@
     <button type="submit">Crear Producto</button>
 </form>
 
-<link rel="stylesheet" href="/css/styles.css">
 <link rel="stylesheet" href="/css/form-styles.css">
-
-<script src="/socket.io/socket.io.js"></script><!-- Incorporamos Socket.IO - la capacidad de establecer conexiones con socket -->
-<script src="/js/refreshProducts.js"></script>
-<script src="/js/deleteLogic.js"></script>

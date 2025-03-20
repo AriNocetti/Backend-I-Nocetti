@@ -4,7 +4,10 @@ import productsRouter from './routes/products.router.js'
 import viewsRouter from './routes/views.router.js';
 import __dirname from './utils.js';
 import { hbs } from './config/handlebars.config.js';
-import { Server } from 'socket.io';
+import mongoose from 'mongoose';
+import { config } from './config/config.js';
+// import methodOverride from 'method-override';
+// import { Server } from 'socket.io';
 
 const app = express();
 
@@ -21,46 +24,30 @@ app.set('views', __dirname + '/views'); //Es mejor utilizar rutas absolutas para
 //Finalmente con app.set('view engine','handlebars') indicamos que el motor que ya iniciamos arriba, es el que queremos utilizar
 app.set('view engine','handlebars');
 
+//Conexión a la base de datos
+await mongoose.connect(config.URL_MONGODB)
+    .then( () => console.log(`Conexión realizada con exito a la base: ${config.URL_MONGODB}`) )
+    .catch( error => {
+        console.error("Error en la conexión ", error);
+        process.exit(); //Cerrar o detener la aplicación
+    })
+
+//Para poder reescribir e interpretar el valor del campo _method en un formulario y poder hacer DELETE
+// app.use(methodOverride('_method'));
+
 const httpServer = app.listen(8080, () => {
     console.log("Servidor escuchando en el puerto 8080")
 })
-//Creamos un servidor de sockets que vive dentro de nuestro servidor HTTP
-const socketServer = new Server(httpServer);
-
-// export { socketServer as io}
 
 app.use('/', viewsRouter); //Para generar páginas estáticas o manejar contenido semi estático 
 app.use('/api/carts', cartsRouter); 
-app.use('/api/products', productsRouter(socketServer));
+app.use('/api/products', productsRouter);
 
-socketServer.on('connection', socket => { //Cuando un cliente se conecta al sevidor, dispara el evento 'connection'
-    console.log("Nuevo cliente conectado");
-    /**
-     * socket.on("nombre del evento a escuchar o subscribirse, callback con la data enviada")
-     */
-    // socket.on('message', data => {
-    //     console.log(data);
-    // })
+//Creamos un servidor de sockets que vive dentro de nuestro servidor HTTP
+// const socketServer = new Server(httpServer);
 
-    //socket.emit: envía un mensaje a un socket específico (el actual)
-    // socket.emit('evento_para_socket_individual', "Este mensaje solo lo debe recibir el socket");
-    // //socket.broadcast.emit: envía un mensaje a todos los sockets excepto el que lo emitió
-    // socket.broadcast.emit('evento_para_todos_menos_el_socket_actual', "Este evento los verán todos los sockets conectados menos el socket actual");
-    // //socketServer.emit: envía un mensaje a todos los sockets conectados al servidor
-    // socketServer.emit('evento_para_todos', 'este mensaje lo reciben todos los sockets conectados');
+// // export { socketServer as io}
 
-    // /** Ejercicio para enviar mensajes */
-    // //Cada vez que alguien se conecte, le voy a tener que enviar los mensajes
-    // socket.emit('loadMessages', messages);
-
-    // //Cada vez que alguien se conecta, quiero avisar al resto de los usuarios
-    // socket.broadcast.emit('newUser', socket.id);
-
-    // socket.on('newMessage', message => {
-    //     const newMessage = `${socket.id} : ${message}`;
-    //     messages.push(newMessage);
-    //     console.log(messages);
-    //     socketServer.emit('newMessage', newMessage);
-    // })
-
-})
+// socketServer.on('connection', socket => {
+//     console.log("Nuevo cliente conectado");
+// })

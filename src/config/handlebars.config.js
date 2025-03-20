@@ -1,11 +1,15 @@
 import { create } from 'express-handlebars';
 
 export const hbs = create({
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true
+    },
     //    extname: '.hbs',
     //    defaultLayout: 'main'
     helpers: {
         json: function (context) {
-            return JSON.stringify(context);
+            return JSON.stringify(context, null, 2);
         },
         includes: function (str, substring) {
             if (!str) {
@@ -16,7 +20,11 @@ export const hbs = create({
             }
             return str.includes(substring);
         },
+        eq: function (a, b) {
+            return a === b;
+        }
     }
 })
+
 
 export default hbs;

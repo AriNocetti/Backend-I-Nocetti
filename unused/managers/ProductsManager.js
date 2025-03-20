@@ -5,7 +5,6 @@ class ProductsManager {
     constructor() {
         this.filePath = './productos.json';
     }
-
     // Obtener todos los productos, con opción de limitar la cantidad
     async getProducts(limit = null) {
         try {
