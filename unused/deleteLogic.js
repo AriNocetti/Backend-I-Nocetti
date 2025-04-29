@@ -1,8 +1,6 @@
 document.getElementById('productosLista').addEventListener('click', function (event) {
-    console.log('adentrsdo')
     if (event.target.classList.contains('delete-product-btn')) {
         const productId = event.target.dataset.id;
-        console.log('adentro', productId)
 
         if (!productId) return; // Prevención de errores
 

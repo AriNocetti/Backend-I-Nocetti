@@ -1,11 +1,26 @@
-    <header class="header-container">
-        <h1>Mi Tienda</h1>
-        <nav class="nav-container">
-            <a href="/">Productos</a>
-            <a href="/newProduct">Crear Producto</a>
-            <a href="/cart">Cart</a>
-            {{!-- <a href="/realtimeproducts">Productos en tiempo real</a> --}}
-        </nav>
-    </header>
+<header class="header-container">
+    <h1>Mi Tienda</h1>
+    <nav class="nav-container">
 
-    <link rel="stylesheet" href="/css/header-container.css">
+        {{#if isAuthenticated}}
+            {{#if (eq role 'user')}}
+                <a href="/">Productos</a>
+                <a href="/cart">Cart</a>
+            {{/if}}
+
+            {{#if (eq role 'admin')}}
+                <a href="/newProduct">Crear Producto</a>
+            {{/if}}
+
+            <a href="/profile">Profile</a>
+            
+            <a href="/api/sessions/logout" class="btn btn-danger">Cerrar Sesión</a>
+
+        {{else}}
+            <a href="/login">Login</a>
+        {{/if}}
+
+    </nav>
+</header>
+
+<link rel="stylesheet" href="/css/header-container.css">

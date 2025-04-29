@@ -16,6 +16,11 @@ import dotenv from 'dotenv';
 dotenv.config(); //Nos permite poder trabajar con las variables de entorno
 
 export const config = {
-    PORT : process.env.PORT ?? 8080, //Pongo por defecto el puerto 8080 en el caso que no venga la variable seteada
-    URL_MONGODB : process.env.URL_MONGODB
+    PORT: process.env.PORT || 8080,
+    JWT_PRIVATE_KEY: process.env.JWT_PRIVATE_KEY || 'defaultJWTKey',
+    JWT_COOKIE_NAME: process.env.JWT_COOKIE_NAME || 'currentUser',
+    URL_MONGODB: process.env.URL_MONGO_URL,
+    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+    GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
+    GITHUB_CALLBACK_URL: process.env.GITHUB_CALLBACK_URL
 }

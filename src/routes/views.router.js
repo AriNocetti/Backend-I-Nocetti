@@ -2,11 +2,13 @@ import { Router } from 'express';
 import cookieParser from 'cookie-parser';
 import ProductModel from '../models/Product.js'
 import CartModel from '../models/Cart.js';
+import { routeGuard, loginGuard, getTokenData } from '../middlewares/auth.middleware.js';
 
 const router = Router();
 router.use(cookieParser());
+router.use(getTokenData);
 
-router.get('/', async (req, res) => {
+router.get('/', routeGuard('user'), async (req, res) => {
     try {
         const { category, status, sort, page = 1, limit = 10 } = req.query;
 
@@ -46,7 +48,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/realtimeproducts', async (req, res) => {
+router.get('/realtimeproducts', routeGuard(), async (req, res) => {
     try {
         const response = await fetch("http://localhost:8080/api/products")
         const productos = await response.json();
@@ -57,25 +59,22 @@ router.get('/realtimeproducts', async (req, res) => {
     }
 });
 
-// Middleware para manejar cookies
-router.use(cookieParser());
-
 // Obtener o crear un carrito
-router.get('/cart', async (req, res) => {
+router.get('/cart', routeGuard('user'), async (req, res) => {
     try {
         let cartId = req.cookies.cartId;
-        console.log('/cart', req.cookies.cartId)
+        // console.log('/cart', req.cookies.cartId)
 
         if (!cartId) { //|| !mongoose.Types.ObjectId.isValid(cartId)
             // Crear un nuevo carrito si no existe
             const newCart = new CartModel({ products: [] });
             await newCart.save();
             res.cookie('cartId', newCart._id.toString(), { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
-            console.log(newCart._id, 'new cart id is');
+            // console.log(newCart._id, 'new cart id is');
             return res.redirect(`/cart/${newCart._id}`);
         }
 
-        console.log(cartId, 'id');
+        // console.log(cartId, 'id');
         return res.redirect(`/cart/${cartId}`);
     } catch (error) {
         console.error("Error obteniendo productos:", error);
@@ -84,9 +83,9 @@ router.get('/cart', async (req, res) => {
 });
 
 // Obtener productos de un carrito o crear uno si no hay :cid
-router.get('/cart/:cid?', async (req, res) => {
+router.get('/cart/:cid?', routeGuard('user'), async (req, res) => {
     try {
-        console.log('pasa por cid', req.params.cid , req.cookies.cartId);
+        // console.log('pasa por cid', req.params.cid , req.cookies.cartId);
         let cartId = req.params.cid || req.cookies.cartId;
 
         if (!cartId) { // || !mongoose.Types.ObjectId.isValid(cartId)
@@ -108,16 +107,28 @@ router.get('/cart/:cid?', async (req, res) => {
     }
 });
 
-router.get('/newProduct', async (req, res) => {
+router.get('/newProduct', routeGuard('admin'), async (req, res) => {
     try {
         const response = await fetch("http://localhost:8080/api/products")
         const productos = await response.json();
         res.render('newProduct', { title: 'Inicio'});
     } catch (error){
         console.error("Error obteniendo productos:", error);
-        res.render('error', { title: 'Inicio', error , page: "newProduct", pageName: "Crear producto"});
+        res.render('error', { title: 'Inicio', error , page: "newProduct", pageName: "Crear producto", role: req.locals.role, isAuthenticate: req.locals.isAuthenticated});
     }
 });
 
+
+// Rutas de autenticación
+router.get('/login', loginGuard(), (req, res) => {
+    res.render('auth', { title: 'Login / Registro' });
+});
+
+router.get('/profile', routeGuard(), (req, res) => {
+    res.render('profile', { 
+        title: 'Perfil',
+        user: res.locals.user, role: res.locals.role, isAuthenticated: res.locals.isAuthenticated
+    });
+});
 
 export default router;
