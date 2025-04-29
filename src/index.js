@@ -1,53 +1,68 @@
 import express from 'express';
+import session from 'express-session';
+import passport from 'passport';
 import cartsRouter from './routes/carts.router.js'
 import productsRouter from './routes/products.router.js'
 import viewsRouter from './routes/views.router.js';
+import usersRouter from './routes/users.router.js';
+import sessionsRouter from './routes/sessions.router.js';
 import __dirname from './utils.js';
 import { hbs } from './config/handlebars.config.js';
 import mongoose from 'mongoose';
 import { config } from './config/config.js';
-// import methodOverride from 'method-override';
-// import { Server } from 'socket.io';
+import './config/passport.config.js';
+import cookieParser from 'cookie-parser';
+import { JWT_PRIVATE_KEY } from './config/jwt.config.js';
+import { getTokenData } from './middlewares/auth.middleware.js';
 
 const app = express();
 
-//Middleware para analizar el cuerpo de las solicitudes
-app.use(express.json());//Indicamos que ahora podemos recibir JSON al momento de recibir solicitudes
-app.use(express.urlencoded({extended: true})); //Permite que se pueda enviar información también desde la URL
-//Para convertir nuestra carpeta PUBLIC en recursos estáticos
-app.use(express.static( __dirname + '/public'));
+// Middlewares básicos
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(JWT_PRIVATE_KEY));
+app.use(express.static(__dirname + '/public'));
 
-//Inicializamos el motor indicando app.engine('Que motor utilizaremos', el motor instanciado)
+// Configuración de Handlebars
 app.engine('handlebars', hbs.engine);
-//Indicamos en que parte del proyecto estarán las rutas
-app.set('views', __dirname + '/views'); //Es mejor utilizar rutas absolutas para evitar problemas de ruteo relativo
-//Finalmente con app.set('view engine','handlebars') indicamos que el motor que ya iniciamos arriba, es el que queremos utilizar
-app.set('view engine','handlebars');
+app.set('views', __dirname + '/views');
+app.set('view engine', 'handlebars');
 
-//Conexión a la base de datos
-await mongoose.connect(config.URL_MONGODB)
-    .then( () => console.log(`Conexión realizada con exito a la base: ${config.URL_MONGODB}`) )
-    .catch( error => {
-        console.error("Error en la conexión ", error);
-        process.exit(); //Cerrar o detener la aplicación
-    })
+// Configuración de sesión
+app.use(session({
+    secret: 'coderSecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
 
-//Para poder reescribir e interpretar el valor del campo _method en un formulario y poder hacer DELETE
-// app.use(methodOverride('_method'));
+// Inicializar Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
-const httpServer = app.listen(8080, () => {
-    console.log("Servidor escuchando en el puerto 8080")
-})
+// Conexión a MongoDB
+const startServer = async () => {
+    try {
+        await mongoose.connect(config.URL_MONGODB);
+        console.log(`Conexión realizada con éxito a la base: ${config.URL_MONGODB}`);
+        
+        // Iniciar servidor
+        const httpServer = app.listen(config.PORT, () => {
+            console.log(`Servidor escuchando en el puerto ${config.PORT}`);
+        });
+    } catch (error) {
+        console.error('Error en la conexión:', error);
+        process.exit(1);
+    }
+};
 
-app.use('/', viewsRouter); //Para generar páginas estáticas o manejar contenido semi estático 
-app.use('/api/carts', cartsRouter); 
+// Rutas
+app.use(getTokenData);
+app.use('/', viewsRouter);
+app.use('/api/carts', cartsRouter);
 app.use('/api/products', productsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/sessions', sessionsRouter);
 
-//Creamos un servidor de sockets que vive dentro de nuestro servidor HTTP
-// const socketServer = new Server(httpServer);
-
-// // export { socketServer as io}
-
-// socketServer.on('connection', socket => {
-//     console.log("Nuevo cliente conectado");
-// })
+// Iniciar servidor
+startServer();

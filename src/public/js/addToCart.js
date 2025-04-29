@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!cartTitleElement) return;
 
             const cartId = cartTitleElement.getAttribute("cart-id");
-            console.log('un foreach', productId, cartId)
+            // console.log('un foreach', productId, cartId)
 
             try {
                 const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
