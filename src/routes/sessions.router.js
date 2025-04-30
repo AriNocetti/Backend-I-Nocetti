@@ -28,13 +28,17 @@ router.get('/github/callback',
 
 // Ruta para cerrar sesión
 router.get('/logout', (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            console.error('Error al cerrar sesión:', err);
-            return res.status(500).json({ error: 'Error al cerrar sesión' });
-        }
-        res.redirect('/login');
-    });
+    res.clearCookie(JWT_COOKIE_NAME);
+    res.redirect('/login');
+    // req.session.destroy(err => {
+    //     console.log('Resultado destroy:', err);
+    //     if (err) {
+    //         return res.status(500).json({ error: 'Error al cerrar sesión' });
+    //     }
+
+    //     res.clearCookie('connect.sid');
+    //     res.redirect('/login');
+    // });
 });
 
 // Register

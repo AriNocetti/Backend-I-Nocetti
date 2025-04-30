@@ -28,10 +28,10 @@ export function getTokenData(req, res, next) {
 
 export function routeGuard(role) {
     return (req, res, next) => {
-        console.log('routeGuard', role)
-        console.log('isAuthenticated', res.locals.isAuthenticated)
-        console.log('role', res.locals.role)
-        console.log('user', res.locals.user)
+        // console.log('routeGuard', role)
+        // console.log('isAuthenticated', res.locals.isAuthenticated)
+        // console.log('role', res.locals.role)
+        // console.log('user', res.locals.user)
 
         if(!role){
             return next();
@@ -74,13 +74,11 @@ export function routeGuard(role) {
 
 export function loginGuard() {
     return (req, res, next) => {
-        if (res.locals.isAuthenticated === true){
-            if(res?.locals?.role == 'admin'){
-                return res.redirect('/newProduct');
-            }else if(res?.locals?.role == 'user'){
-                return res.redirect('/');
-            }
+        if (res.locals.isAuthenticated) {
+            const role = res.locals.role;
+            if (role === 'admin') return res.redirect('/newProduct');
+            if (role === 'user') return res.redirect('/');
         }
-        next()
+        next();
     };
 }
