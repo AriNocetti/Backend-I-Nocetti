@@ -1,1 +1,21 @@
 # BackendWithExpress
+Esta es la entrega final de Backend 2
+
+para levantar el proyecto 
+
+agregar el siguiente .env
+
+PORT = 8080
+URL_MONGO_URL=mongodb+srv://arinocetti:coderuser123@cluster0.ebcdo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+JWT_PRIVATE_KEY=coderJWTSecretKey
+JWT_COOKIE_NAME=currentUser
+PRIVATE_KEY=myCoderSecret
+PERSISTENCE=MONGO
+
+# GitHub OAuth
+GITHUB_CLIENT_ID=Iv23liBIQw8y77seUBYZ
+GITHUB_CLIENT_SECRET=6b15c3f9f6e5b3112c45f9fea400ef7906f7a2fc
+GITHUB_CALLBACK_URL=http://localhost:8080/api/sessions/github/callback
+SECRET_COOKIE=userCookieToken
+
+luego ejecutar npm run dev
