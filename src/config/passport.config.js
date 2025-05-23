@@ -1,9 +1,9 @@
 import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
-import UserModel from '../models/user.model.js';
 import { config } from './config.js';
 import { JWT_PRIVATE_KEY, JWT_COOKIE_NAME } from './jwt.config.js';
+import authService from '../services/auth.service.js';
 
 // Extractor de cookie para JWT
 const cookieExtractor = (req) => {
@@ -33,7 +33,7 @@ passport.use('current', new JWTStrategy({
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await UserModel.findById(id);
+        const user = await authService.getUserById(id);
         done(null, user);
     } catch (error) {
         done(error);
@@ -61,7 +61,7 @@ passport.use('github', new GitHubStrategy({
             }
 
             // Buscar si existe un usuario con ese email
-            let user = await UserModel.findOne({ email: userEmail });
+            let user = await authService.getUserByEmail(userEmail);
 
             if (!user) {
                 // Si no existe, crear un nuevo usuario
@@ -70,10 +70,11 @@ passport.use('github', new GitHubStrategy({
                     last_name: '',
                     email: userEmail,
                     age: 18,
-                    password: ''
+                    password: '',
+                    role: 'user'
                 };
                 console.log('Creando nuevo usuario:', newUser);
-                user = await UserModel.create(newUser);
+                user = await authService.createUser(newUser);
             }
             return done(null, user);
         } catch (error) {

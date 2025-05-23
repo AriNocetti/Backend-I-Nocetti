@@ -1,9 +1,59 @@
-<h2 class="title">Carrito {{cart.id}}</h2>
+<div class="container mt-4">
+    <h2 class="title mb-4">Carrito {{cart.id}}</h2>
 
-{{#if cart.products.length}}
-    {{> cartCardList productos = cart.products}}
-{{else}}
-    <p>Tu carrito está vacío.</p>
-{{/if}}
+    {{#if cart.products.length}}
+        {{> cartCardList productos = cart.products}}
+        
+        <div class="mt-4 d-flex justify-content-end">
+            <button id="purchaseBtn" class="btn btn-primary">Finalizar Compra</button>
+        </div>
+    {{else}}
+        <div class="alert alert-info">Tu carrito está vacío.</div>
+    {{/if}}
+</div>
 
-{{!-- <link rel="stylesheet" href="/css/styles.css"> --}}
+<div id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"></div>
+
+<script>
+document.getElementById('purchaseBtn')?.addEventListener('click', async () => {
+    try {
+        const response = await fetch(`/api/carts/{{cart.id}}/purchase`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            showToast('success', 'Compra realizada con éxito!');
+            if (result.failedProducts?.length > 0) {
+                showToast('warning', 'Algunos productos no pudieron ser comprados por falta de stock');
+            }
+            setTimeout(() => window.location.reload(), 2000);
+        } else {
+            showToast('error', result.message || 'Error al procesar la compra');
+        }
+    } catch (error) {
+        showToast('error', 'Error al procesar la compra');
+        console.error('Error:', error);
+    }
+});
+
+function showToast(type, message) {
+    const toastContainer = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'danger'} alert-dismissible fade show`;
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    toastContainer.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 5000);
+}
+</script>

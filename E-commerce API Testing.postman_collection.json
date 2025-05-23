@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "2d1b339a-15af-46d1-80a1-d208a4c5ab22",
+		"name": "E-commerce API Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26641783",
+		"_collection_link": "https://venedictoteam.postman.co/workspace/venedictoTeam-Workspace~e696de98-8629-46e8-be7f-0899d6b4763c/collection/26641783-2d1b339a-15af-46d1-80a1-d208a4c5ab22?action=share&source=collection_link&creator=26641783"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login como Admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"adminCoder@coder.com\",\n    \"password\": \"adminCod3r123\"\n}"
+						},
+						"url": "http://localhost:8080/api/sessions/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Login como Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"usuario@test.com\",\n    \"password\": \"test123\"\n}"
+						},
+						"url": "http://localhost:8080/api/sessions/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"Usuario\",\n    \"last_name\": \"Test\",\n    \"email\": \"usuario@test.com\",\n    \"password\": \"test123\",\n    \"age\": 25\n}"
+						},
+						"url": "http://localhost:8080/api/sessions/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Usuario Actual",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/sessions/current"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "Obtener Lista de Productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Producto (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Producto Test\",\n    \"description\": \"Descripción del producto\",\n    \"price\": 100,\n    \"code\": \"TEST123\",\n    \"stock\": 10,\n    \"category\": \"test\"\n}"
+						},
+						"url": "http://localhost:8080/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Producto (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price\": 150,\n    \"stock\": 20\n}"
+						},
+						"url": "http://localhost:8080/api/products/67d9def55ad509f7fa6dcc9b"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Producto (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/api/products/67d9def55ad509f7fa6dcc9b"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carrito (Usuario)",
+			"item": [
+				{
+					"name": "Obtener Carrito Actual",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/carts/680f01f63aa928c5b5604e58"
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar Producto al Carrito",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8080/api/carts/680f01f63aa928c5b5604e58/products/67d9def55ad509f7fa6dcc9b"
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar Producto Sin Stock al Carrito",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8080/api/carts/680f01f63aa928c5b5604e58/products/67d9def55ad509f7fa6dcca8"
+					},
+					"response": []
+				},
+				{
+					"name": "Realizar Compra",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8080/api/carts/680f01f63aa928c5b5604e58/purchase"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -6,6 +6,7 @@ import productsRouter from './routes/products.router.js'
 import viewsRouter from './routes/views.router.js';
 import usersRouter from './routes/users.router.js';
 import sessionsRouter from './routes/sessions.router.js';
+import ticketsRouter from './routes/tickets.router.js';
 import __dirname from './utils.js';
 import { hbs } from './config/handlebars.config.js';
 import mongoose from 'mongoose';
@@ -14,6 +15,7 @@ import './config/passport.config.js';
 import cookieParser from 'cookie-parser';
 import { JWT_PRIVATE_KEY } from './config/jwt.config.js';
 import { getTokenData } from './middlewares/auth.middleware.js';
+import { PersistenceFactory } from './DAO/factory.js';
 
 const app = express();
 
@@ -43,15 +45,23 @@ app.use(passport.session());
 // Conexión a MongoDB
 const startServer = async () => {
     try {
-        await mongoose.connect(config.URL_MONGODB);
-        console.log(`Conexión realizada con éxito a la base: ${config.URL_MONGODB}`);
+        // Inicializar el factory de persistencia
+        console.log('Inicializando persistencia...');
+        const DAOs = PersistenceFactory.getPersistence();
+        console.log('Persistencia inicializada:', config.PERSISTENCE);
+
+        // Si es MongoDB, conectar a la base de datos
+        if (config.PERSISTENCE.toUpperCase() === 'MONGO') {
+            await mongoose.connect(config.URL_MONGODB);
+            console.log(`Conexión realizada con éxito a la base: ${config.URL_MONGODB}`);
+        }
         
         // Iniciar servidor
         const httpServer = app.listen(config.PORT, () => {
             console.log(`Servidor escuchando en el puerto ${config.PORT}`);
         });
     } catch (error) {
-        console.error('Error en la conexión:', error);
+        console.error('Error en la inicialización:', error);
         process.exit(1);
     }
 };
@@ -63,6 +73,7 @@ app.use('/api/carts', cartsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/sessions', sessionsRouter);
+app.use('/api/tickets', ticketsRouter);
 
 // Iniciar servidor
 startServer();

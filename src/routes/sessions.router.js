@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
-import UserModel from '../models/user.model.js';
-import CartModel from '../models/Cart.js';
 import { JWT_PRIVATE_KEY, JWT_COOKIE_NAME } from '../config/jwt.config.js';
+import UserDTO from '../dto/user.dto.js';
+import authService from '../services/auth.service.js';
+import cartService from '../services/cart.service.js';
 
 const router = Router();
 
@@ -52,21 +53,20 @@ router.post('/register', async (req, res) => {
         }
 
         // Verificar si el usuario ya existe
-        const exists = await UserModel.findOne({ email });
+        const exists = await authService.getUserByEmail(email);
         if (exists) {
             return res.status(400).json({ status: 'error', error: 'El usuario ya existe' });
         }
 
         // Crear un nuevo carrito para el usuario
-        const newCart = new CartModel({ products: [] });
-        await newCart.save();
+        const newCart = await cartService.createCart();
 
         // Crear el usuario
-        const user = await UserModel.create({
+        const user = await authService.createUser({
             first_name,
             last_name,
             email,
-            password, // Se hashea automáticamente por el middleware del modelo
+            password,
             age,
             role: 'user',
             cart: newCart._id
@@ -90,15 +90,9 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ status: 'error', error: 'Faltan campos obligatorios' });
         }
 
-        // Buscar usuario
-        const user = await UserModel.findOne({ email });
+        // Validar usuario y contraseña
+        const user = await authService.validateUser(email, password);
         if (!user) {
-            return res.status(401).json({ status: 'error', error: 'Credenciales inválidas' });
-        }
-
-        // Validar password
-        const isValid = await user.isValidPassword(password);
-        if (!isValid) {
             return res.status(401).json({ status: 'error', error: 'Credenciales inválidas' });
         }
 
@@ -108,7 +102,8 @@ router.post('/login', async (req, res) => {
             email: user.email,
             first_name: user.first_name,
             last_name: user.last_name,
-            role: user.role
+            role: user.role,
+            cart: user.cart // Incluir el cartId en el token
         };
 
         const token = jwt.sign({ user: userToToken }, JWT_PRIVATE_KEY, { expiresIn: '24h' });
@@ -130,7 +125,8 @@ router.post('/login', async (req, res) => {
 
 // Current - Obtener usuario actual
 router.get('/current', passport.authenticate('current', { session: false }), (req, res) => {
-    res.json({ status: 'success', payload: res.locals.user });
+    const userDTO = new UserDTO(res.locals.user);
+    res.json({ status: 'success', payload: userDTO });
 });
 
 export default router;

@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "1747955918405",
+    "first_name": "Admin",
+    "last_name": "Coder",
+    "email": "adminCoder@coder.com",
+    "password": "$2b$10$XjZ3QU5c0CwVYk0qMxPp7OiZiKmqMwm7F1ZUXkR.yQHgJ9g4BpE6G",
+    "role": "admin"
+  },
+  {
+    "_id": "1747956807348",
+    "first_name": "ari",
+    "last_name": "nocetti",
+    "email": "arinocetti@gmail.com",
+    "password": "123",
+    "age": "18",
+    "role": "user",
+    "cart": "1747956807344"
+  }
+]

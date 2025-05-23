@@ -22,6 +22,15 @@ export const hbs = create({
         },
         eq: function (a, b) {
             return a === b;
+        },
+        formatDate: function (date) {
+            return new Date(date).toLocaleString('es-AR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
         }
     }
 })

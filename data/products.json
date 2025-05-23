@@ -1,0 +1,132 @@
+[
+    {
+        "_id": "67d9def55ad509f7fa6dcc9b",
+        "title": "Pantalon",
+        "description": "descr pantalon",
+        "code": 3123,
+        "price": 12312,
+        "stock": 11,
+        "category": "Pantalones",
+        "thumbnails": [
+            "https://res.cloudinary.com/dejb7jzsz/image/upload/v1738957495/jogging_negro_gbx2dq.webp"
+        ],
+        "status": false
+    },
+    {
+        "_id": "67d9def55ad509f7fa6dcc9c",
+        "title": "Nuevo Producto2",
+        "description": "Descripción del producto2",
+        "code": 1232,
+        "price": 99.99,
+        "stock": 40,
+        "category": "Lenceria",
+        "thumbnails": [
+            "https://res.cloudinary.com/dejb7jzsz/image/upload/v1738957498/conjunto_sanValentin_pa4szr.webp"
+        ],
+        "status": true
+    },
+    {
+        "_id": "67d9def55ad509f7fa6dcc9d",
+        "title": "Abrigo",
+        "description": "descr abrigo",
+        "code": 123,
+        "price": 120,
+        "stock": 1233,
+        "category": "abrigo",
+        "thumbnails": [
+            "https://res.cloudinary.com/dejb7jzsz/image/upload/v1738957501/abrigo_huggie_ckqbkk.webp"
+        ],
+        "status": false
+    },
+    {
+        "_id": "67d9def55ad509f7fa6dcc9e",
+        "title": "Producto 1",
+        "description": "Descripción del producto 1",
+        "code": 1,
+        "price": 426,
+        "stock": 85,
+        "category": "Generico",
+        "thumbnails": [
+            "https://via.placeholder.com/150?text=Producto+1"
+        ],
+        "status": true
+    },
+    {
+        "_id": "67d9def55ad509f7fa6dcc9f",
+        "title": "Producto 2",
+        "description": "Descripción del producto 2",
+        "code": 2,
+        "price": 45,
+        "stock": 46,
+        "category": "Generico",
+        "thumbnails": [
+            "https://via.placeholder.com/150?text=Producto+2"
+        ],
+        "status": true
+    },
+    {
+        "_id": "67d9def55ad509f7fa6dcca0",
+        "title": "Producto 3",
+        "description": "Descripción del producto 3",
+        "code": 3,
+        "price": 840,
+        "stock": 98,
+        "category": "Generico",
+        "thumbnails": [
+            "https://via.placeholder.com/150?text=Producto+3"
+        ],
+        "status": true
+    },
+    {
+        "_id": "67d9def55ad509f7fa6dcca1",
+        "title": "Producto 4",
+        "description": "Descripción del producto 4",
+        "code": 4,
+        "price": 626,
+        "stock": 72,
+        "category": "Generico",
+        "thumbnails": [
+            "https://via.placeholder.com/150?text=Producto+4"
+        ],
+        "status": true
+    },
+    {
+        "_id": "67d9def55ad509f7fa6dcca2",
+        "title": "Producto 5",
+        "description": "Descripción del producto 5",
+        "code": 5,
+        "price": 69,
+        "stock": 58,
+        "category": "Generico",
+        "thumbnails": [
+            "https://via.placeholder.com/150?text=Producto+5"
+        ],
+        "status": true
+    },
+    {
+        "_id": "67d9def55ad509f7fa6dcca3",
+        "title": "Producto 6",
+        "description": "Descripción del producto 6",
+        "code": 6,
+        "price": 366,
+        "stock": 63,
+        "category": "Generico",
+        "thumbnails": [
+            "https://via.placeholder.com/150?text=Producto+6"
+        ],
+        "status": true
+    },
+    {
+        "_id": "67d9def55ad509f7fa6dcca4",
+        "title": "Producto 7",
+        "description": "Descripción del producto 7",
+        "code": 7,
+        "price": 851,
+        "stock": 64,
+        "category": "Generico",
+        "thumbnails": [
+            "https://via.placeholder.com/150?text=Producto+7"
+        ],
+        "status": true
+    }
+]

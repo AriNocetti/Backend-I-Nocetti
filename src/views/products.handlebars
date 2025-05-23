@@ -1,4 +1,5 @@
-<h2 class="title" id="cart-title" cart-id="{{cartId}}">Productos</h2>
+<h2 class="title" id="cart-title" data-cart-id="{{cartId}}">Productos</h2>
+<input type="hidden" id="userCartId" value="{{cartId}}">
 {{> paginationControls}}
 {{> cardList productos = info.docs}}
 
